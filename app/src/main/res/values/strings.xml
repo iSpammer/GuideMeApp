@@ -1,27 +1,27 @@
 <resources>
-        <string name="app_name">GuideMe</string>
-        <!--Login Activity-->
-        <string name="headerDescription">header</string>
-        <string name="appName">Guide Me</string>
-        <string name="login">Login</string>
-        <string name="Circle1">Circle1</string>
-        <string name="Circle2">Circle2</string>
-        <string name="Circle3">Circle3</string>
-        <string name="Circle4">Circle4</string>
-        <string name="EMail">EMail</string>
-        <string name="Password">Password</string>
-        <string name="ForgetPassword">Forget Password?</string>
-        <string name="FacebookLogin">Login with Facebook</string>
-        <string name="GoogleLogin">Login with Google</string>
-        <string name="EMailHint">Enter your E-Mail address</string>
-        <string name="PasswordHint">Enter your Password</string>
-        <string name="RegisterDesc">Register Hint</string>
-        <!--SignUp Activity-->
-        <string name="signUp">Sign Up</string>
-        <string name="CircleTes">Circle toolbar</string>
-        <string name="UserName">Name</string>
-        <string name="UserNameHint">Enter your Name</string>
-        <string name="ConfPassword">Confirm Password</string>
-        <string name="ConfPasswordHint">Confirm Password</string>
-        <string name="RegisterButton">Register</string>
+    <string name="app_name">GuideMe</string>
+    <!--Login Activity-->
+    <string name="headerDescription">header</string>
+    <string name="appName">Guide Me</string>
+    <string name="login">Login</string>
+    <string name="Circle1">Circle1</string>
+    <string name="Circle2">Circle2</string>
+    <string name="Circle3">Circle3</string>
+    <string name="Circle4">Circle4</string>
+    <string name="EMail">Email</string>
+    <string name="Password">Password</string>
+    <string name="ForgetPassword">Forget Password?</string>
+    <string name="FacebookLogin">Login with Facebook</string>
+    <string name="GoogleLogin">Login with Google</string>
+    <string name="EMailHint">Enter your Email address</string>
+    <string name="PasswordHint">Enter your Password</string>
+    <string name="RegisterDesc">Register Hint</string>
+    <!--SignUp Activity-->
+    <string name="signUp">Sign Up</string>
+    <string name="CircleTes">Circle toolbar</string>
+    <string name="UserName">Name</string>
+    <string name="UserNameHint">Enter your Name</string>
+    <string name="ConfPassword">Confirm Password</string>
+    <string name="ConfPasswordHint">Confirm Password</string>
+    <string name="RegisterButton">Register</string>
 </resources>

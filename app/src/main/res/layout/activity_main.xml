@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:ignore="VectorDrawableCompat"
-    tools:context="ispam.mark13r.GuideMe.MainActivity">
+    tools:context="com.guideme.guideme.MainActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/bgHeader"
@@ -120,7 +120,7 @@
 
                     <EditText
                         android:hint="@string/EMailHint"
-                        android:id="@+id/etUsername"
+                        android:id="@+id/etEMail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tvEmail"
@@ -135,7 +135,7 @@
                         android:id="@+id/tvPassword"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/etUsername"
+                        android:layout_below="@+id/etEMail"
                         android:layout_margin="15dp"
                         android:text="@string/Password"
                         android:textColor="@color/colorRed"

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    tools:context="ispam.mark13r.GuideMe.RegisterActivity">
+    tools:context="com.guideme.guideme.RegisterActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -185,7 +185,7 @@
                 android:elevation="10dp">
 
                 <Button
-                    android:id="@+id/btLogin"
+                    android:id="@+id/btSignUp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"

@@ -60,6 +60,7 @@ public class RegisterActivity extends AppCompatActivity {
         animation   = AnimationUtils.loadAnimation(this,R.anim.uptodown);
         rlayout.setAnimation(animation);
         btnSignUp = findViewById(R.id.btSignUp);
+        edtUserName = findViewById(R.id.etUsername);
         edtEmail = findViewById(R.id.etEmail);
         edtPassword = findViewById(R.id.etPassword);
         edtRePassword = findViewById(R.id.etRePassword);
@@ -128,9 +129,9 @@ public class RegisterActivity extends AppCompatActivity {
                 else{
                     String userId = mAuth.getCurrentUser().getUid();
                         user_db = FirebaseDatabase.getInstance().getReference().child("Users").child("Travelers").child(userId);
-                        user_db = FirebaseDatabase.getInstance().getReference().child("Users").child("Travelers").child(userId).child("name").child(name);
-                        user_db = FirebaseDatabase.getInstance().getReference().child("Users").child("Travelers").child(userId).child("dp").child("");
-                        user_db = FirebaseDatabase.getInstance().getReference().child("Users").child("Travelers").child(userId).child("mail").child("");
+                        FirebaseDatabase.getInstance().getReference().child("Users").child("Travelers").child(userId).child("name").child(name).setValue(true);
+                        FirebaseDatabase.getInstance().getReference().child("Users").child("Travelers").child(userId).child("avatar").child("none").setValue(true);
+                        FirebaseDatabase.getInstance().getReference().child("Users").child("Travelers").child(userId).child("mail").child(email).setValue(true);
 //                        user_db = FirebaseDatabase.getInstance().getReference().child("Users").child("Drivers").child(userId).child(email);
                         user_db.setValue(true);
                         Intent intent = new Intent(RegisterActivity.this, MainPage.class);
@@ -147,7 +148,7 @@ public class RegisterActivity extends AppCompatActivity {
                         // depending on success
                         onSignupSuccess();
                         // onSignupFailed();
-                        progressDialog.dismiss();
+//                        progressDialog.dismiss();
                     }
                 }, 3000);
     }

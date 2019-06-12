@@ -226,7 +226,7 @@
                 android:layout_marginStart="90dp"
                 android:textColor="@color/colorRed" />
 
-            <Button
+            <com.facebook.login.widget.LoginButton
                 android:id="@+id/btFacebook"
                 android:layout_width="50dp"
                 android:layout_height="50dp"

@@ -24,4 +24,34 @@
     <string name="ConfPassword">Confirm Password</string>
     <string name="ConfPasswordHint">Confirm Password</string>
     <string name="RegisterButton">Register</string>
+
+
+    <string name="update">Update</string>
+    <string name="infomail">MAIL PLACEHOLDER</string>
+    <string name="updateinfo">Update info</string>
+    <string name="incorrectmail">Please enter a correct mail</string>
+    <string name="incorrectpw">Please enter a password</string>
+    <string name="shortpw">Please enter a password with more than 6 chars</string>
+    <string name="regDone">Registration done please go back and sign in!</string>
+    <string name="alreadyReg">Mail already register, login instead</string>
+    <string name="checkCredent">Check your login credentials</string>
+    <string name="placeholder">placeholder</string>
+    <string name="placeholdertxt">Lorem ipsum dolor sit amet, vim at sumo sanctus mnesarchum. Duis regione temporibus te mei. Zril interpretaris ne sed. Eos ei laboramus conceptam persequeris, ex ignota posidonium vel, tollit corpora scripserit cum ut.
+</string>
+    <string name="admob_app_id">ca-app-pub-9184185768056728~2778951634</string>
+    <string name="admob_banner_id">ca-app-pub-9184185768056728/3090900681</string>
+    <string name="logout">Logout</string>
+    <string name="about">About</string>
+    <string name="home">home</string>
+    <string name="home_description">Arduino devices list</string>
+    <string name="about_description">Info about the application</string>
+    <string name="about_text">Created by Ossama Akram , an Android Developer since 2017 \n this application was made under GUC University NETW Protocol as a course project \n this application is at alpha stage bugs and errors may occur \n use with caution \n https://ispammer.github.io/site/</string>
+    <string name="share">Share</string>
+    <string name="contact">Contact me</string>
+    <string name="github">Github</string>
+    <string name="register">Register</string>
+    <string name="noaccount">Dont have an account ?</string>
+
+
+
 </resources>

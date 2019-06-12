@@ -12,5 +12,6 @@
     <color name="colorRedT">#B27F0000</color>
     <color name="colorRedX">#90F44336</color>
     <color name="colorRedXT">#6BBA000D</color>
+    <color name="primaryTextColor">#000000</color>
 
 </resources>

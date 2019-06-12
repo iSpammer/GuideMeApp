@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -85,7 +86,6 @@ public class RegisterActivity extends AppCompatActivity {
                 signup();
             }
         });
-
     }
 
     @Override
@@ -127,14 +127,31 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "Error Registering", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    String userId = mAuth.getCurrentUser().getUid();
-                        user_db = FirebaseDatabase.getInstance().getReference().child("Users").child("Travelers").child(userId);
-                        FirebaseDatabase.getInstance().getReference().child("Users").child("Travelers").child(userId).child("name").child(name).setValue(true);
-                        FirebaseDatabase.getInstance().getReference().child("Users").child("Travelers").child(userId).child("avatar").child("none").setValue(true);
-                        FirebaseDatabase.getInstance().getReference().child("Users").child("Travelers").child(userId).child("mail").child(email).setValue(true);
-//                        user_db = FirebaseDatabase.getInstance().getReference().child("Users").child("Drivers").child(userId).child(email);
-                        user_db.setValue(true);
-                        Intent intent = new Intent(RegisterActivity.this, MainPage.class);
+                    final FirebaseUser user = mAuth.getCurrentUser();
+                    System.out.println("ERRORHERE");
+                    String userId = user.getUid();
+
+                    user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()){
+                                Toast.makeText(getApplicationContext(), "Verification mail sent succesfully, please confirm your account", Toast.LENGTH_LONG).show();
+                            }
+                            else{
+                                Toast.makeText(getApplicationContext(), "Error sending verification mail", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+
+                    Log.e("PASSED", userId);
+                    user_db = FirebaseDatabase.getInstance().getReference().child("Users").child("Travelers").child(userId);
+                    user_db= FirebaseDatabase.getInstance().getReference().child("Users").child("Travelers").child(userId).child("name").child(name);
+                    user_db.setValue(true);
+
+                    user_db= FirebaseDatabase.getInstance().getReference().child("Users").child("Travelers").child(userId).child("avatar").child("none");
+                    user_db.setValue(true);
+
+                    Intent intent = new Intent(RegisterActivity.this, FirstTimeSetupActivity.class);
                         startActivity(intent);
                         finish();
                 }

@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainPage"></activity>
+        <activity android:name=".FirstTimeSetupActivity"></activity>
+        <activity android:name=".MainPage" android:theme="@style/AppTheme.FullScreen">
+
+        </activity>
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.FullScreen">

@@ -319,6 +319,10 @@ public class MainPage extends AppCompatActivity {
         result.addStickyFooterItem(new PrimaryDrawerItem().withName(R.string.logout).withIcon(GoogleMaterial.Icon.gmd_exit_to_app).withIdentifier(99));
     }
 
+    public void orderGuide(View v){
+        Intent intent = new Intent(MainPage.this, MapsActivity.class);
+        startActivity(intent);
+    }
 
     //weather releated stuffs
 }

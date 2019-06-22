@@ -13,5 +13,6 @@
     <color name="colorRedX">#90F44336</color>
     <color name="colorRedXT">#6BBA000D</color>
     <color name="primaryTextColor">#000000</color>
-
+    <color name="commonPhrasePrimary">#484dd4</color>
+    <color name="commonPhraseSecondary">#4146c4</color>
 </resources>

@@ -51,7 +51,7 @@
     <string name="github">Github</string>
     <string name="register">Register</string>
     <string name="noaccount">Dont have an account ?</string>
-
+    <string name="title_activity_maps">Map</string>
 
 
 </resources>

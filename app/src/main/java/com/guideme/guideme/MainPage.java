@@ -1,26 +1,38 @@
 package com.guideme.guideme;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.GravityCompat;
-
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.view.GravityCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.guideme.guideme.common.Common;
+import com.guideme.guideme.helper.Helper;
+import com.guideme.guideme.model.OpenWeatherMap;
 import com.mikepenz.crossfadedrawerlayout.view.CrossfadeDrawerLayout;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
@@ -38,18 +50,24 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mikepenz.materialdrawer.util.DrawerUIUtils;
 import com.mikepenz.materialize.util.UIUtils;
+import com.squareup.picasso.Picasso;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.lang.reflect.Type;
 
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.Locale;
-
-public class MainPage extends AppCompatActivity {
+public class MainPage extends AppCompatActivity implements LocationListener {
     private FirebaseAuth mAuth;
     private FirebaseUser user;
     private Button signOut;
+
+
+    static double lat, lng;
+    //weather
+    LocationManager locationManager;
+    String provider;
+    OpenWeatherMap openWeatherMap = new OpenWeatherMap();
+    int MY_PERMISSION = 0;
+    TextView mainWeath;
+    ImageView mainWeathIcon;
 
     //drawer
     private Drawer result;
@@ -57,7 +75,6 @@ public class MainPage extends AppCompatActivity {
 
 
 //    private CustomSharedPreference customSharedPreference;
-
 
 
 //    private
@@ -71,34 +88,37 @@ public class MainPage extends AppCompatActivity {
 
         setContentView(R.layout.activity_main_page);
 
-//        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP))
-//        {
-//            getBackground().setAlpha(0);
-//        }
-//        else
-//        {
-//            setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent));
-//        }
-
         mAuth = FirebaseAuth.getInstance();
 
+        mainWeath = findViewById(R.id.mainWeath);
+        mainWeathIcon = findViewById(R.id.mainWeathIcon);
 
-//        if(!mAuth.getCurrentUser().isEmailVerified()){
-//            Intent intent = new Intent(MainPage.this, FirstTimeSetupActivity.class);
-//            startActivity(intent);
-//            finish();
-//        }
+        //Get Coordinates
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        provider = locationManager.getBestProvider(new Criteria(), false);
 
-//        signOut = findViewById(R.id.signOut);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-//        signOut.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mAuth.signOut();
-//            }
-//        });
 
+            ActivityCompat.requestPermissions(this, new String[]{
+                    Manifest.permission.INTERNET,
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_NETWORK_STATE,
+                    Manifest.permission.SYSTEM_ALERT_WINDOW,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+
+
+            }, MY_PERMISSION);
+        }
+        Location location = locationManager.getLastKnownLocation(provider);
+        if (location == null)
+            Log.e("TAG", "No Location");
         //drawer
+        initialaizeDrawer();
+    }
+
+    private void initialaizeDrawer() {
         PrimaryDrawerItem item1 = new PrimaryDrawerItem().withName(R.string.home).withIcon(GoogleMaterial.Icon.gmd_home).withDescription(R.string.home_description).withIconTintingEnabled(true).withIdentifier(1);
         PrimaryDrawerItem item2 = new PrimaryDrawerItem().withName(R.string.about).withIcon(GoogleMaterial.Icon.gmd_info).withDescription(R.string.about_description).withIconTintingEnabled(true).withIdentifier(2);
         PrimaryDrawerItem item3 = new PrimaryDrawerItem().withName(R.string.update).withIcon(GoogleMaterial.Icon.gmd_wb_sunny).withDescription(R.string.updateinfo).withIconTintingEnabled(true).withIdentifier(3);
@@ -192,10 +212,10 @@ public class MainPage extends AppCompatActivity {
 //                            Intent intent = new Intent(getApplicationContext(), FirsttimesetupActivity.class);
 //                            startActivity(intent);
                         } else if (drawerItem.getIdentifier() == 4) {
-                            Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                            Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                             sharingIntent.setType("text/plain");
-                            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, R.string.placeholder);
-                            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, R.string.placeholdertxt);
+                            sharingIntent.putExtra(Intent.EXTRA_SUBJECT, R.string.placeholder);
+                            sharingIntent.putExtra(Intent.EXTRA_TEXT, R.string.placeholdertxt);
                             startActivity(Intent.createChooser(sharingIntent, "Share via"));
                         } else if (drawerItem.getIdentifier() == 5) {
                             Intent intent = new Intent(Intent.ACTION_SEND);
@@ -239,10 +259,10 @@ public class MainPage extends AppCompatActivity {
 //                            Intent intent = new Intent(getApplicationContext(), FirsttimesetupActivity.class);
 //                            startActivity(intent);
                         } else if (drawerItem.getIdentifier() == 4) {
-                            Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                            Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                             sharingIntent.setType("text/plain");
-                            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, R.string.placeholder);
-                            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, R.string.placeholdertxt);
+                            sharingIntent.putExtra(Intent.EXTRA_SUBJECT, R.string.placeholder);
+                            sharingIntent.putExtra(Intent.EXTRA_TEXT, R.string.placeholdertxt);
                             startActivity(Intent.createChooser(sharingIntent, "Share via"));
                         } else if (drawerItem.getIdentifier() == 5) {
                             Intent intent = new Intent(Intent.ACTION_SEND);
@@ -319,10 +339,120 @@ public class MainPage extends AppCompatActivity {
         result.addStickyFooterItem(new PrimaryDrawerItem().withName(R.string.logout).withIcon(GoogleMaterial.Icon.gmd_exit_to_app).withIdentifier(99));
     }
 
-    public void orderGuide(View v){
+    public void orderGuide(View v) {
         Intent intent = new Intent(MainPage.this, MapsActivity.class);
         startActivity(intent);
     }
 
-    //weather releated stuffs
+
+    //weather
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{
+                    Manifest.permission.INTERNET,
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_NETWORK_STATE,
+                    Manifest.permission.SYSTEM_ALERT_WINDOW,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+
+
+            }, MY_PERMISSION);
+        }
+        locationManager.removeUpdates(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{
+                    Manifest.permission.INTERNET,
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_NETWORK_STATE,
+                    Manifest.permission.SYSTEM_ALERT_WINDOW,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+
+
+            }, MY_PERMISSION);
+        }
+        locationManager.requestLocationUpdates(provider, 400, 1, this);
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        lat = location.getLatitude();
+        lng = location.getLongitude();
+
+        new GetWeather().execute(Common.api_req(String.valueOf(lat), String.valueOf(lng)));
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
+
+    private class GetWeather extends AsyncTask<String, Void, String> {
+//        ProgressDialog pd = new ProgressDialog(getApplicationContext());
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+//            pd.setTitle("Please wait...");
+//            pd.show();
+
+        }
+
+
+        @Override
+        protected String doInBackground(String... params) {
+            String stream = null;
+            String urlString = params[0];
+
+            Helper http = new Helper();
+            stream = http.getHTTPData(urlString);
+            return stream;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+//            if (s.contains("Error: Not found city")) {
+////                pd.dismiss();
+//                return;
+//            }
+            Gson gson = new Gson();
+            Type mType = new TypeToken<OpenWeatherMap>() {
+            }.getType();
+            openWeatherMap = gson.fromJson(s, mType);
+//            pd.dismiss();
+
+//            txtCity.setText(String.format("%s,%s",openWeatherMap.getName(),openWeatherMap.getSys().getCountry()));
+//            txtLastUpdate.setText(String.format("Last Updated: %s", Common.getDateNow()));
+//            txtDescription.setText(String.format("%s",openWeatherMap.getWeather().get(0).getDescription()));
+//            txtHumidity.setText(String.format("%d%%",openWeatherMap.getMain().getHumidity()));
+//            txtTime.setText(String.format("%s/%s",Common.unixTimeStampToDateTime(openWeatherMap.getSys().getSunrise()),Common.unixTimeStampToDateTime(openWeatherMap.getSys().getSunset())));
+            mainWeath.setText(String.format("%.2f °C", openWeatherMap.getMain().getTemp()));
+            Picasso.get()
+                    .load(Common.getImage(openWeatherMap.getWeather().get(0).getIcon()))
+                    .into(mainWeathIcon);
+
+        }
+
+    }
 }
+

@@ -78,6 +78,7 @@
 
 
                         <ImageView
+                            android:id="@+id/mainWeathIcon"
                             android:layout_width="wrap_content"
                             android:layout_height="28dp"
                             android:layout_alignParentRight="true"
@@ -107,6 +108,7 @@
                         android:layout_height="wrap_content">
 
                         <TextView
+                            android:id="@+id/mainWeath"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"

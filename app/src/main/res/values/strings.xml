@@ -53,5 +53,18 @@
     <string name="noaccount">Dont have an account ?</string>
     <string name="title_activity_maps">Map</string>
 
+    <string name="OPEN_WEATHER_MAP_API_KEY">0e5e434a8f9778e596ff155231d12d9a</string>
+    <string name="current_weather">Curr</string>
+    <string name="weather_description">Descrip</string>
+    <string name="temperature">Max</string>
+    <string name="wind_speed">Wind</string>
+    <string name="humidity">Humidity</string>
+    <string name="pressure">Pressure</string>
+    <string name="sea_level">Sea Lvl</string>
+    <string name="drawer_open">Open Drawer</string>
+    <string name="drawer_close">Close Drawer</string>
 
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_explore">Explore</string>
+    <string name="title_history">History</string>
 </resources>

@@ -55,8 +55,8 @@ public class RegisterActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("");
 
-        rlayout     = findViewById(R.id.rlayout);
-        animation   = AnimationUtils.loadAnimation(this,R.anim.uptodown);
+        rlayout = findViewById(R.id.rlayout);
+        animation = AnimationUtils.loadAnimation(this, R.anim.uptodown);
         rlayout.setAnimation(animation);
         btnSignUp = findViewById(R.id.btSignUp);
         edtUserName = findViewById(R.id.etUsername);
@@ -70,7 +70,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                if(user != null){
+                if (user != null) {
                     Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
@@ -88,7 +88,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
                 return true;
@@ -121,10 +121,9 @@ public class RegisterActivity extends AppCompatActivity {
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(!task.isSuccessful()){
+                if (!task.isSuccessful()) {
                     Toast.makeText(RegisterActivity.this, "Error Registering", Toast.LENGTH_SHORT).show();
-                }
-                else{
+                } else {
                     final FirebaseUser user = mAuth.getCurrentUser();
                     System.out.println("ERRORHERE");
                     String userId = user.getUid();
@@ -132,10 +131,9 @@ public class RegisterActivity extends AppCompatActivity {
                     user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()){
+                            if (task.isSuccessful()) {
                                 Toast.makeText(getApplicationContext(), "Verification mail sent succesfully, please confirm your account", Toast.LENGTH_LONG).show();
-                            }
-                            else{
+                            } else {
                                 Toast.makeText(getApplicationContext(), "Error sending verification mail", Toast.LENGTH_LONG).show();
                             }
                         }
@@ -143,15 +141,15 @@ public class RegisterActivity extends AppCompatActivity {
 
                     Log.e("PASSED", userId);
                     user_db = FirebaseDatabase.getInstance().getReference().child("Users").child("Travelers").child(userId);
-                    user_db= FirebaseDatabase.getInstance().getReference().child("Users").child("Travelers").child(userId).child("name").child(name);
+                    user_db = FirebaseDatabase.getInstance().getReference().child("Users").child("Travelers").child(userId).child("name").child(name);
                     user_db.setValue(true);
 
-                    user_db= FirebaseDatabase.getInstance().getReference().child("Users").child("Travelers").child(userId).child("avatar").child("none");
+                    user_db = FirebaseDatabase.getInstance().getReference().child("Users").child("Travelers").child(userId).child("avatar").child("none");
                     user_db.setValue(true);
 
                     Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
+                    startActivity(intent);
+                    finish();
                 }
             }
         });
@@ -208,11 +206,10 @@ public class RegisterActivity extends AppCompatActivity {
         } else {
             edtPassword.setError(null);
         }
-        if(!password.equals(confPassword)){
+        if (!password.equals(confPassword)) {
             edtPassword.setError("Password doesn't match");
             valid = false;
-        }
-        else{
+        } else {
             edtRePassword.setError(null);
         }
 
@@ -220,13 +217,13 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(firebaseAuthListener);
     }
 
     @Override
-    public void onStop(){
+    public void onStop() {
         super.onStop();
         mAuth.removeAuthStateListener(firebaseAuthListener);
     }

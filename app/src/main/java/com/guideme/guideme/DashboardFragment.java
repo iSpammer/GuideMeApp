@@ -23,6 +23,7 @@ public class DashboardFragment extends Fragment {
         CardView bookARide = view.findViewById(R.id.bookARide);
         CardView emergencyNumbers = view.findViewById(R.id.emergencyNumbers);
 
+
         NestedScrollView scrollView = view.findViewById(R.id.scrollView);
         AutoHideFAB fab = ((MainActivity) getContext()).getAddFab();
         fab.setupWithNestedScrollView(scrollView);
@@ -30,7 +31,8 @@ public class DashboardFragment extends Fragment {
         requestTourGuide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getActivity(), MapsActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -51,6 +53,7 @@ public class DashboardFragment extends Fragment {
         bookARide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startActivity(new Intent(getContext(), OrderTaxiActivity.class));
 
             }
         });
@@ -62,6 +65,11 @@ public class DashboardFragment extends Fragment {
             }
         });
 
+
         return view;
     }
+
+
 }
+
+

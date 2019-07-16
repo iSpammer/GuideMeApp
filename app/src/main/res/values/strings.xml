@@ -55,7 +55,7 @@
 
     <string name="OPEN_WEATHER_MAP_API_KEY">0e5e434a8f9778e596ff155231d12d9a</string>
     <string name="current_weather">Curr</string>
-    <string name="weather_description">Descrip</string>
+    <string name="weather_description">Description</string>
     <string name="temperature">Max</string>
     <string name="wind_speed">Wind</string>
     <string name="humidity">Humidity</string>

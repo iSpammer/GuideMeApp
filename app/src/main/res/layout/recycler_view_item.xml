@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/recycler_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    card_view:cardCornerRadius="4dp"
+    card_view:cardElevation="6dp"
+    card_view:contentPadding="8dp">
+
+    <TextView
+        android:id="@+id/list_item_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:minLines="4"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+</android.support.v7.widget.CardView>

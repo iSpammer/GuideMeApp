@@ -14,6 +14,19 @@ public class PhonesAdapter extends RecyclerView.Adapter<PhonesAdapter.ViewHolder
     private EmergencyNumbersActivity context;
     private List<PhoneItem> phoneItems;
 
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        public View view;
+        public TextView phone, title;
+
+        public ViewHolder(View view) {
+            super(view);
+            this.view = view;
+            phone = view.findViewById(R.id.phone);
+            title = view.findViewById(R.id.title);
+        }
+    }
+
     public PhonesAdapter(EmergencyNumbersActivity context, List<PhoneItem> phoneItems) {
         this.context = context;
         this.phoneItems = phoneItems;
@@ -45,18 +58,5 @@ public class PhonesAdapter extends RecyclerView.Adapter<PhonesAdapter.ViewHolder
     @Override
     public int getItemCount() {
         return phoneItems.size();
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
-
-        public View view;
-        public TextView phone, title;
-
-        public ViewHolder(View view) {
-            super(view);
-            this.view = view;
-            phone = view.findViewById(R.id.phone);
-            title = view.findViewById(R.id.title);
-        }
     }
 }

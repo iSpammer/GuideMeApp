@@ -1,6 +1,8 @@
 package com.guideme.guideme;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 
@@ -28,13 +31,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_main);
 
+        if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            return;
+        } else {
+            // Write you code here if permission already given.
+        }
+
+        ActivityCompat.requestPermissions(this, new String[]
+                {Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         Toolbar toolbar = findViewById(R.id.toolbar);
         DrawerLayout drawerLayout = findViewById(R.id.drawerLayout);
         LinearLayout drawerLinear = findViewById(R.id.drawerLinear);
         final ViewPager viewPager = findViewById(R.id.viewPager);
         final BottomNavigationView navigationView = findViewById(R.id.navigationView);
         addFab = findViewById(R.id.addFab);
-
+        checkLocationPermission();
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
             @Override
             public void onDrawerClosed(View drawerView) {
@@ -137,10 +149,37 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.item_notifications) {
+            startActivity(new Intent(this, NotificationsActivity.class));
+        }
         return super.onOptionsItemSelected(item) || drawerToggle.onOptionsItemSelected(item);
     }
 
     public AutoHideFAB getAddFab() {
         return addFab;
+    }
+
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
+
+    public boolean checkLocationPermission() {
+        String permission = "android.permission.ACCESS_FINE_LOCATION";
+        int res = this.checkCallingOrSelfPermission(permission);
+        return (res == PackageManager.PERMISSION_GRANTED);
     }
 }

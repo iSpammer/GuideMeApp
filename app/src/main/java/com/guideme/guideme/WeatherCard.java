@@ -111,5 +111,7 @@ public class WeatherCard extends CardView implements LocationListener {
     public void onStatusChanged(String provider, int status, Bundle extras) {
         Toast.makeText(getContext(), "onStatusChanged", Toast.LENGTH_SHORT).show();  // Toast not showing
     }
+
+
 }
 
